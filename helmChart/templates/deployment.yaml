@@ -8,7 +8,7 @@ metadata:
     tier: backend
     track: stable
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: identity-provider
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: identity-provider
-        image: 10nutz/id_provider
+        image: 10nutz/id_provider:latest
         ports:
         - name: http 
           containerPort: 8090
