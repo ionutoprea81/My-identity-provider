@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="user")
+@Table(name="DSuser")
 public class User implements UserDetails{
     @Id
     @GeneratedValue
@@ -28,9 +28,6 @@ public class User implements UserDetails{
 
     @Column(name = "password")
     private String password;
-
-    @Column(name = "is_email_validated")
-    private Boolean is_email_validated;
 
     @Enumerated(EnumType.STRING)
     private Role role;

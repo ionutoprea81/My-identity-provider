@@ -25,8 +25,6 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .requestMatchers("/authentication/**")
                 .permitAll()
-                .requestMatchers("/authentication/check-code")
-                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

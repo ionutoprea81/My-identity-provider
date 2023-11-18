@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: id-provider
+  namespace: tc-namespace
+  labels:
+    app: id-provider
+    tier: backend
+    track: stable
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: id-provider
+  template:
+    metadata:
+      labels:
+        app: id-provider
+        tier: backend
+        track: stable
+    spec:
+      containers:
+      - name: id-provider
+        image: 10nutz/id_provider
+        ports:
+        - name: http 
+          containerPort: 8090
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: docker
+          - name: DATABASE_HOST
+            value: {{ .Values.database.host }}
+          - name: DATABASE_NAME
+            value: {{ .Values.database.name }}
+          - name: DATABASE_USER_NAME
+            value: {{ .Values.database.user }}
+          - name: DATABASE_USER_PASSWORD
+            value: {{ .Values.database.password }}

@@ -1,0 +1,4 @@
+apiVersion: v2
+name: id-provider-chart
+description: A Helm chart for deploying the id provider for my dataspace
+version: 0.1.0

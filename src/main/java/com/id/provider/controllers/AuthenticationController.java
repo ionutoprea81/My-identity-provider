@@ -1,6 +1,7 @@
 package com.id.provider.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.id.provider.models.User;
 import com.id.provider.models.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -8,13 +9,27 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/authentication")
 @RequiredArgsConstructor
 public class AuthenticationController {
-    private final AuthenticationService service;
 
+    private final AuthenticationService service;
+    private final UserRepository userRepository;
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request){
+
+        Optional<User> foundUser = userRepository.findByEmail(request.getEmail());
+        if(foundUser.isPresent()){
+            return ResponseEntity.badRequest().body(AuthenticationResponse.builder().message("The user already exists in the database!").build());
+        }
+
+        return ResponseEntity.ok(service.register(request));
+    }
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request, HttpServletRequest httpServletRequest){
         String origin = httpServletRequest.getHeader(HttpHeaders.ORIGIN);
