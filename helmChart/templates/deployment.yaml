@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: id-provider
+  name: identity-provider
   namespace: tc-namespace
   labels:
-    app: id-provider
+    app: identity-provider
     tier: backend
     track: stable
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: id-provider
+      app: identity-provider
   template:
     metadata:
       labels:
-        app: id-provider
+        app: identity-provider
         tier: backend
         track: stable
     spec:
       containers:
-      - name: id-provider
+      - name: identity-provider
         image: 10nutz/id_provider
         ports:
         - name: http 

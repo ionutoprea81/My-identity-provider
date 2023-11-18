@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: id-provider-service
+  name: identity-provider-service
   namespace: tc-namespace
 spec:
   selector:
-    app: id-provider
+    app: identity-provider
     tier: backend
   ports:
   - protocol: TCP
