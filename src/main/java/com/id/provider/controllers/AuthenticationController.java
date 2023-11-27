@@ -1,24 +1,38 @@
 package com.id.provider.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.id.provider.config.MailService;
+import com.id.provider.models.PasswordResetToken;
+import com.id.provider.models.PasswordResetTokenRepository;
 import com.id.provider.models.User;
 import com.id.provider.models.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/authentication")
 @RequiredArgsConstructor
 public class AuthenticationController {
+    @Autowired
+    AuthenticationService service;
+    @Autowired
+    UserRepository userRepository;
 
-    private final AuthenticationService service;
-    private final UserRepository userRepository;
+    @Autowired
+    MailService mailService;
+
+    @Autowired
+    PasswordResetTokenRepository passwordResetTokenRepository;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request){
@@ -35,6 +49,39 @@ public class AuthenticationController {
         String origin = httpServletRequest.getHeader(HttpHeaders.ORIGIN);
         System.out.println(origin);
         return ResponseEntity.ok(service.authenticate(request));
+    }
+
+    @PostMapping("/send-reset-password-token")
+    public ResponseEntity<?> sendResetToken(@RequestBody ResetRequest request){
+        Optional<User> user = userRepository.findByEmail(request.getEmail());
+
+        if(user == null){
+            return ResponseEntity.badRequest().body("User details must not be null");
+        }
+
+        if (user.isPresent()) {
+            String token = UUID.randomUUID().toString();
+            service.createPasswordResetTokenForUser(request.getEmail(), token);
+            mailService.sendMail(request.getEmail(), "Reset password code:", token);
+        }
+
+        return ResponseEntity.ok().body("The code has been sent.");
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody PasswordReset passwordReset) {
+        try {
+            Optional<PasswordResetToken> passwordResetToken = passwordResetTokenRepository.findByToken(passwordReset.getToken());
+
+            if (passwordResetToken.isPresent()) {
+                service.resetPasswordForUser(passwordReset.getToken(), passwordReset.getNewPass());
+                return ResponseEntity.ok().body("Password updated.");
+            }
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return  ResponseEntity.internalServerError().body("");
     }
 
     @PostMapping("/refresh-token")

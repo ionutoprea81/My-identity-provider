@@ -3,6 +3,9 @@ package com.id.provider.config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.id.provider.models.PasswordResetToken;
+import com.id.provider.models.PasswordResetTokenRepository;
+import com.id.provider.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -89,8 +92,8 @@ public class JwtService {
         final String userEmail = jsonNode.get("email").asText();
         return ((userEmail.compareTo(userDetails.getUsername()) == 0) && !isTokenExpired(token));
     }
-    public String generateToken(Map<String,Object> extraClaims, UserDetails userDetails, Integer expiration){
-        String userData = "{\"email\":\""+userDetails.getUsername()+"\", \"authorities\":\""+userDetails.getAuthorities()+"\"}";
+    public String generateToken(Map<String,Object> extraClaims, UserDetails userDetails, Integer expiration) {
+        String userData = "{\"email\":\"" + userDetails.getUsername() + "\", \"authorities\":\"" + userDetails.getAuthorities() + "\"}";
 
         return Jwts
                 .builder()
