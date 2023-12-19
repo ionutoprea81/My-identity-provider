@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.Optional;
 
 @CrossOrigin(origins = "*" )
@@ -21,7 +22,20 @@ public class IDController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    AuthenticationService authenticationService;
+
     JwtService jwtService;
+
+    @GetMapping("/get-user-details")
+    public ResponseEntity<String> getDetails(@RequestHeader("Authorization") String token, @RequestBody ResetRequest request){
+        try{
+            String resp = authenticationService.getUserDetails(request.getEmail());
+            return ResponseEntity.ok(resp);
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().body("There was a problem while processing your request");
+        }
+    }
 
     @GetMapping("/fetch-role")
     public ResponseEntity<String> retrieveRole(@RequestHeader("Authorization") String token){

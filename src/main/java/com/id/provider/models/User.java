@@ -26,6 +26,12 @@ public class User implements UserDetails{
     @Column(name = "email")
     private String email;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "institution")
+    private String institution;
+
     @Column(name = "password")
     private String password;
 
@@ -41,6 +47,8 @@ public class User implements UserDetails{
     public String getUsername() {
         return email;
     }
+
+
 
     @Override
     public boolean isAccountNonExpired() {

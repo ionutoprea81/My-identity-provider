@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.id.provider.config.JwtService;
 import com.id.provider.models.*;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,7 +41,7 @@ public class AuthenticationService {
 
     public String register(RegisterRequest request) {
 
-        var user = User.builder().email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).role(Role.USER).build();
+        var user = User.builder().email(request.getEmail()).name(request.getName()).institution(request.getInstitution()).password(passwordEncoder.encode(request.getPassword())).role(Role.USER).build();
         var savedUser = repository.save(user);
         return "";
     }
@@ -94,6 +96,13 @@ public class AuthenticationService {
         }
 
         repository.changeUserPassword(passwordResetToken.get().getEmail(), passwordEncoder.encode(password));
+    }
+
+    public String getUserDetails(String email){
+        var user = repository.findByEmail(email).orElseThrow();
+        String userData = "{\"name\":\"" + user.getName() + "\", \"institution\":\"" + user.getInstitution() + "\"}";
+
+        return userData;
     }
 
 }
