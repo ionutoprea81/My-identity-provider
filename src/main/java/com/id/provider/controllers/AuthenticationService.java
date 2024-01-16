@@ -100,7 +100,7 @@ public class AuthenticationService {
 
     public String getUserDetails(String email){
         var user = repository.findByEmail(email).orElseThrow();
-        String userData = "{\"name\":\"" + user.getName() + "\", \"institution\":\"" + user.getInstitution() + "\"}";
+        String userData = "{\"name\":\"" + user.getName() + "\", \"institution\":\"" + user.getInstitution() + "\" , \"address\":\"" + user.getAdress() + "\"}";
 
         return userData;
     }
