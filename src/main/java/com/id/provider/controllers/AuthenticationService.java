@@ -41,7 +41,7 @@ public class AuthenticationService {
 
     public String register(RegisterRequest request) {
 
-        var user = User.builder().email(request.getEmail()).name(request.getName()).institution(request.getInstitution()).password(passwordEncoder.encode(request.getPassword())).role(Role.USER).build();
+        var user = User.builder().email(request.getEmail()).name(request.getName()).institution(request.getInstitution()).address(request.getAddress()).password(passwordEncoder.encode(request.getPassword())).role(Role.USER).build();
         var savedUser = repository.save(user);
         return "";
     }
@@ -100,7 +100,7 @@ public class AuthenticationService {
 
     public String getUserDetails(String email){
         var user = repository.findByEmail(email).orElseThrow();
-        String userData = "{\"name\":\"" + user.getName() + "\", \"institution\":\"" + user.getInstitution() + "\" , \"address\":\"" + user.getAdress() + "\"}";
+        String userData = "{\"name\":\"" + user.getName() + "\", \"institution\":\"" + user.getInstitution() + "\" , \"address\":\"" + user.getAddress() + "\"}";
 
         return userData;
     }

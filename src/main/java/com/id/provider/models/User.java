@@ -35,8 +35,8 @@ public class User implements UserDetails{
     @Column(name = "password")
     private String password;
 
-    @Column(name = "adress")
-    private String adress;
+    @Column(name = "address")
+    private String address;
 
     @Enumerated(EnumType.STRING)
     private Role role;
