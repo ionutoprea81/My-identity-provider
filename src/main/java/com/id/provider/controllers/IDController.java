@@ -28,9 +28,9 @@ public class IDController {
     JwtService jwtService;
 
     @GetMapping("/get-user-details")
-    public ResponseEntity<String> getDetails(@RequestHeader("Authorization") String token, @RequestBody ResetRequest request){
+    public ResponseEntity<String> getDetails(@RequestHeader("Authorization") String token, @RequestParam("email") String email){
         try{
-            String resp = authenticationService.getUserDetails(request.getEmail());
+            String resp = authenticationService.getUserDetails(email);
             return ResponseEntity.ok(resp);
         }catch (Exception e){
             return ResponseEntity.internalServerError().body("There was a problem while processing your request");
