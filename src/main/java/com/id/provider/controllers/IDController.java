@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@CrossOrigin(origins = "*" )
+@CrossOrigin(origins = {"*","http://localhost:4200", "http://localhost:4200/"} )
 @RestController
 @RequestMapping("/api/v1")
 public class IDController {
@@ -25,15 +25,16 @@ public class IDController {
     @Autowired
     AuthenticationService authenticationService;
 
+    @Autowired
     JwtService jwtService;
 
-    @GetMapping("/get-user-details")
-    public ResponseEntity<String> getDetails(@RequestHeader("Authorization") String token, @RequestParam("email") String email){
-        try{
+    @GetMapping("/get-user-details/{email}")
+    public ResponseEntity<String> getDetails(@RequestHeader("Authorization") String token, @PathVariable("email") String email) {
+        try {
             String resp = authenticationService.getUserDetails(email);
             return ResponseEntity.ok(resp);
-        }catch (Exception e){
-            return ResponseEntity.internalServerError().body("There was a problem while processing your request");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("{\"message\": \"There was a problem while processing your request.\"}");
         }
     }
 
@@ -44,9 +45,9 @@ public class IDController {
         try {
             // Assuming authenticationService is an instance of your authentication service
             authenticationService.updateUserDetails(userDetails);
-            return ResponseEntity.ok("User details updated successfully");
+            return ResponseEntity.ok("{\"message\": \"User details updated successfully.\"}");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("There was a problem while processing your request");
+            return ResponseEntity.internalServerError().body("{\"message\": \"There was a problem while processing your request.\"}");
         }
     }
 
@@ -59,7 +60,7 @@ public class IDController {
         try{
             jsonNode = objectMapper.readTree(data);
         }catch (Exception ex){
-            return ResponseEntity.internalServerError().body("There was a problem while processing your request");
+            return ResponseEntity.internalServerError().body("{\"message\": \"There was a problem while processing your request.\"}");
         }
 
         final String userEmail = jsonNode.get("email").asText();
@@ -71,9 +72,9 @@ public class IDController {
         }
     }
 
-    @GetMapping("/check-token")
+        @GetMapping("/check-token")
     public ResponseEntity<?> checkToken(@RequestHeader("Authorization") String token){
 
-        return ResponseEntity.ok("The token is valid");
+        return ResponseEntity.ok("{\"message\": \"The token is valid.\"}");
     }
 }
