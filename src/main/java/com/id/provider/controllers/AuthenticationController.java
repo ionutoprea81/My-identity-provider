@@ -56,7 +56,7 @@ public class AuthenticationController {
         Optional<User> user = userRepository.findByEmail(request.getEmail());
 
         if(user == null){
-            return ResponseEntity.badRequest().body("User details must not be null");
+            return ResponseEntity.badRequest().body("{\"message\": \"User details must not be null.\"}");
         }
 
         if (user.isPresent()) {
@@ -65,7 +65,7 @@ public class AuthenticationController {
             mailService.sendMail(request.getEmail(), "Reset password code:", token);
         }
 
-        return ResponseEntity.ok().body("The code has been sent.");
+        return ResponseEntity.ok().body("{\"message\": \"The code has been sent.\"}");
     }
 
     @PostMapping("/change-password")
@@ -75,7 +75,8 @@ public class AuthenticationController {
 
             if (passwordResetToken.isPresent()) {
                 service.resetPasswordForUser(passwordReset.getToken(), passwordReset.getNewPass());
-                return ResponseEntity.ok().body("Password updated.");
+                passwordResetTokenRepository.deleteById(passwordResetToken.get().getId().intValue());
+                return ResponseEntity.ok().body("{\"message\": \"Password updated.\"}");
             }
         }
         catch (Exception e) {
@@ -92,9 +93,9 @@ public class AuthenticationController {
                 return ResponseEntity.ok(service.refreshToken(refreshBody.getRefreshToken()));
             } catch (JsonProcessingException ex){
                 System.out.println(ex.getMessage());
-                return  ResponseEntity.badRequest().body("There was a problem with the request");
+                return  ResponseEntity.badRequest().body("{\"message\": \"There was a problem with the request.\"}");
             }
         }
-        return ResponseEntity.badRequest().body("You must provide refresh token in body");
+        return ResponseEntity.badRequest().body("{\"message\": \"You must provide refresh token in body.\"}");
     }
 }

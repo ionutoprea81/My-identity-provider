@@ -37,6 +37,19 @@ public class IDController {
         }
     }
 
+    @PostMapping("/update-user-details")
+    public ResponseEntity<String> updateDetails(
+            @RequestHeader("Authorization") String token,
+            @RequestBody UserDetails userDetails) {
+        try {
+            // Assuming authenticationService is an instance of your authentication service
+            authenticationService.updateUserDetails(userDetails);
+            return ResponseEntity.ok("User details updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("There was a problem while processing your request");
+        }
+    }
+
     @GetMapping("/fetch-role")
     public ResponseEntity<String> retrieveRole(@RequestHeader("Authorization") String token){
         this.jwtService = new JwtService();

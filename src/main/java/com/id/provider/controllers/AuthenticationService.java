@@ -105,4 +105,15 @@ public class AuthenticationService {
         return userData;
     }
 
+    public void updateUserDetails(UserDetails userDetails) {
+        Optional<User> existingUserOptional = repository.findByEmail(userDetails.getEmail());
+
+        existingUserOptional.ifPresent(existingUser -> {
+            existingUser.setName(userDetails.getUsername());
+            existingUser.setAddress(userDetails.getAddress());
+
+            repository.save(existingUser);
+        });
+    }
+
 }
