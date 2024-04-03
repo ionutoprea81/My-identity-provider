@@ -6,6 +6,7 @@ C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\m
 C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\config\UserInfo.java
 C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\controllers\IDController.java
 C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\ProviderApplication.java
+C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\config\WebMvc.java
 C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\models\PasswordResetToken.java
 C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\config\SecurityConfiguration.java
 C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\config\JwtService.java
@@ -14,6 +15,7 @@ C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\m
 C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\controllers\AuthenticationController.java
 C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\controllers\AuthenticationService.java
 C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\controllers\RefreshRequest.java
+C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\controllers\UserDetails.java
 C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\models\PasswordResetTokenRepository.java
 C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\models\UserRepository.java
 C:\Users\10nutz\Documents\Calculatoare\Anul 4\Licenta\My-identity-provider\src\main\java\com\id\provider\controllers\AuthenticationResponse.java
